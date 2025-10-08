@@ -1,3 +1,7 @@
+# app.py
+# Real Estate Price Predictor using Streamlit
+# Dependencies are listed in requirements.txt for Streamlit Cloud deployment
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -38,16 +42,12 @@ def train_model():
 
 model, trained_columns = train_model()
 
-
-
 st.title('🏡 Real Estate Price Predictor')
 st.write("Use the sliders and dropdown in the sidebar to get a price prediction for a property.")
 
-# Sidebar for user inputs
 st.sidebar.header('Input Property Features')
 
 def user_input_features():
-    # Sliders and selectbox for user input
     sqft = st.sidebar.slider('Square Footage', 800, 4000, 1500)
     bedrooms = st.sidebar.slider('Bedrooms', 1, 5, 3)
     bathrooms = st.sidebar.slider('Bathrooms', 1, 5, 2)
@@ -65,17 +65,13 @@ def user_input_features():
 
 input_df = user_input_features()
 
-
 input_processed = pd.get_dummies(input_df, columns=['Location'])
 input_processed = input_processed.reindex(columns=trained_columns, fill_value=0)
 
 prediction = model.predict(input_processed)
 
-
 st.subheader('Prediction')
 st.header(f'Estimated Price: ${prediction[0]:,.2f}')
-
-
 
 st.write("---")
 st.subheader('Your Input:')
